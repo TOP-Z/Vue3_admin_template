@@ -9,10 +9,13 @@
     "preview": "vite preview",
     "lint": "eslint src",
     "fix": "eslint src --fix",
-    "preinstall": "node ./scripts/preinstall.js"
+    "preinstall": "node ./scripts/preinstall.js",
+    "build:test": "vue-tsc && vite build --mode test",
+    "build:pro": "vue-tsc && vite build --mode production"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.1.0",
+    "axios": "^1.5.1",
     "element-plus": "^2.3.14",
     "vue": "^3.3.4"
   },
@@ -43,6 +46,8 @@
     "stylelint-scss": "^5.2.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
+    "vite-plugin-mock": "2.9.8",
+    "vite-plugin-svg-icons": "^2.0.1",
     "vue-tsc": "^1.8.5"
   }
 }

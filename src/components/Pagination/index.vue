@@ -1,14 +1,12 @@
 <!--
  * @Description: 
  * @Author: 振顺
- * @Date: 2023-10-10 11:30:01
- * @LastEditTime: 2023-10-12 16:44:29
+ * @Date: 2023-10-12 10:56:24
+ * @LastEditTime: 2023-10-12 10:56:56
  * @LastEditors: 振顺
 -->
 <template>
-  <div>
-    <h1>App根组件</h1>
-  </div>
+  <div>分页器</div>
 </template>
 
 <script setup lang="ts">
