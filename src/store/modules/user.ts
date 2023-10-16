@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-13 11:23:17
- * @LastEditTime: 2023-10-16 11:41:57
+ * @LastEditTime: 2023-10-16 17:34:54
  * @LastEditors: 振顺
  */
 // 创建用户相关的小仓库
@@ -14,11 +14,14 @@ import type { LoginFrom, LoginRes } from '@/api/user/type'
 import type { UserState } from './types/type'
 // 引入操作本地存储的工具方法
 import { SET_TOKEN, GET_TOKEN } from '@/utils/token'
+// 引入路由(常量路由)
+import { constantRoutes } from '@/router/routes'
 let useUserStore = defineStore('User', {
     state: (): UserState => {
         return {
             // token: localStorage.getItem('TOKEN'),// 用户唯一标识
             token: GET_TOKEN(),// 用户唯一标识
+            menuRoutes: constantRoutes,// 仓库存储生成菜单需要数组(路由)
         }
     },
     actions: {
