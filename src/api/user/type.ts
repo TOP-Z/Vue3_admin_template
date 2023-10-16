@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-12 16:46:36
- * @LastEditTime: 2023-10-12 17:50:54
+ * @LastEditTime: 2023-10-16 11:23:46
  * @LastEditors: 振顺
  */
 // 登录接口需要携带参数ts类型
@@ -12,8 +12,9 @@ export interface LoginFrom {
 }
 
 interface dataType {
-    token: string
-    userInfo: {
+    toke?: string
+    message?: string
+    userInfo?: {
         id: number
         username: string
         nickname: string

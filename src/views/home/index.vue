@@ -1,13 +1,13 @@
 <!--
  * @Description: 
  * @Author: 振顺
- * @Date: 2023-10-10 11:30:01
- * @LastEditTime: 2023-10-13 10:18:10
+ * @Date: 2023-10-13 09:30:45
+ * @LastEditTime: 2023-10-13 09:39:37
  * @LastEditors: 振顺
 -->
 <template>
   <div>
-    <router-view></router-view>
+    <h1>我是一级路由展示登录成功以后的数据</h1>
   </div>
 </template>
 
