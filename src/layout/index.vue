@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-16 14:22:18
- * @LastEditTime: 2023-10-16 17:42:23
+ * @LastEditTime: 2023-10-17 16:01:20
  * @LastEditors: 振顺
 -->
 <template>
@@ -14,7 +14,7 @@
       <!-- 滚动组件 -->
       <el-scrollbar class="scrollbar">
         <!-- 菜单组件 -->
-        <el-menu background-color="#001529" text-color="white">
+        <el-menu :default-active="$route.path" background-color="#001529" text-color="white" active-text-color="yellowgreen">
           <Menu :menuList="userStore.menuRoutes"></Menu>
         </el-menu>
       </el-scrollbar>
@@ -23,18 +23,24 @@
     <div class="layout_tabbar"></div>
     <!-- 右侧内容 -->
     <div class="layout_main">
-      <p style="height: 1000px">qqqqq</p>
+      <Main></Main>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+// 获取路由对象
+import { useRoute } from 'vue-router'
 import Logo from './logo/index.vue'
+// 引入菜单组件
 import Menu from './menu/index.vue'
+// 右侧内容展示区域
+import Main from './main/index.vue'
 // 获取用户相关小仓库
 import useUserStore from '@/store/modules/user'
 let userStore = useUserStore()
+let $route = useRoute()
 </script>
 <style scoped lang="scss">
 .layout_container {
@@ -48,6 +54,9 @@ let userStore = useUserStore()
     .scrollbar {
       width: 100%;
       height: calc(100vh - $base-menu-logo-height);
+      .el-menu {
+        border-right: none;
+      }
     }
   }
   .layout_tabbar {
