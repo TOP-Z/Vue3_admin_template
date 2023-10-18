@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-13 10:05:09
- * @LastEditTime: 2023-10-17 11:44:31
+ * @LastEditTime: 2023-10-18 14:44:31
  * @LastEditors: 振顺
  */
 // 对外暴露配置路由(常量路由)
@@ -22,9 +22,9 @@ export const constantRoutes = [
         name: 'Layout',
         component: () => import('@/layout/index.vue'),
         meta: {
-            title: 'layout',
+            title: '',
             hidden: false,
-            icon: 'Avatar'
+            icon: ''
         },
         redirect: '/home',
         children: [
@@ -77,6 +77,7 @@ export const constantRoutes = [
             hidden: false,
             icon: 'Lock'
         },
+        redirect:'/acl/user',
         children: [
             {
                 path: '/acl/user',
@@ -119,6 +120,7 @@ export const constantRoutes = [
             hidden: false,
             icon: 'Goods'
         },
+        redirect:'/product/trademark',
         children: [
             {
                 path: '/product/trademark',
