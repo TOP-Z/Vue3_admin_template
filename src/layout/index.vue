@@ -2,16 +2,14 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-16 14:22:18
- * @LastEditTime: 2023-10-17 18:00:46
+ * @LastEditTime: 2023-10-19 16:18:37
  * @LastEditors: 振顺
 -->
 <template>
   <div class="layout_container">
     <!-- 左侧菜单 -->
-    <div
-      class="layout_slider"
-      :class="{ fold: LayOutSettingStore.fold ? true : false }"
-    >
+    <!-- :class="{ fold: LayOutSettingStore.fold ? true : false }" -->
+    <div class="layout_slider">
       <Logo></Logo>
       <!-- 展示菜单 -->
       <!-- 滚动组件 -->
@@ -99,7 +97,7 @@ export default {
     top: 0;
     left: $base-menu-width;
     transition: all 0.3s;
-    // background-color: white;
+    background-color: white;
     &.fold {
       width: calc(100% - $base-menu-min-width);
       left: $base-menu-min-width;

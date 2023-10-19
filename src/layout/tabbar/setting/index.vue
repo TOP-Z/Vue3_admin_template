@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-17 16:58:42
- * @LastEditTime: 2023-10-18 17:52:09
+ * @LastEditTime: 2023-10-19 17:53:39
  * @LastEditors: 振顺
 -->
 <template>
@@ -71,10 +71,10 @@ const fullScreen = () => {
   }
 }
 // 退出登录点击回调
-const logout = () => {
+const logout = async () => {
   // 第一步：向服务器发请求[退出登录接口]
   // 第二件事情:仓库当中关于用于相关的数据清空[token|username|avatar]
-  userStore.userLogout()
+  await userStore.userLogout()
   // 第三件事情:跳转到登录页面
   $router.push({
     path: '/login',

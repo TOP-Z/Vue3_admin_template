@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-13 09:29:47
- * @LastEditTime: 2023-10-18 17:57:31
+ * @LastEditTime: 2023-10-19 17:30:10
  * @LastEditors: 振顺
 -->
 <template>
@@ -43,7 +43,7 @@
               :loading="loading"
               type="primary"
               size="default"
-              @click="login"
+              @click="onSubmit"
               class="login_btn"
             >
               登录
@@ -74,7 +74,7 @@ let $route = useRoute()
 // 收集账号与密码的数据
 let loginForm = reactive({
   username: 'admin',
-  password: '111111',
+  password: 'atguigu123',
 })
 // 登录按钮的loading状态
 let loading = ref(false)

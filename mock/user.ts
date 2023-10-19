@@ -2,10 +2,14 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-12 15:30:11
- * @LastEditTime: 2023-10-12 15:30:23
+ * @LastEditTime: 2023-10-19 16:24:31
  * @LastEditors: 振顺
  */
 //用户信息数据
+// ?服务器域名:http://sph-api.atguigu.cn
+// ?sagger文档:
+// ?http://39.98.123.211:8510/swagger-ui.html
+// ?http://139.198.104.58:8212/swagger-ui.html#/
 function createUserList() {
     return [
         {

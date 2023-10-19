@@ -2,13 +2,15 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-16 15:26:28
- * @LastEditTime: 2023-10-17 17:48:43
+ * @LastEditTime: 2023-10-19 16:17:45
  * @LastEditors: 振顺
 -->
 <template>
   <div class="logo" v-if="setting.logoHidden">
     <img :src="setting.logo" alt="" />
-    <p>{{ setting.title }}</p>
+    <p>
+      {{ setting.title }}
+    </p>
   </div>
 </template>
 
