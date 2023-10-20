@@ -2,53 +2,34 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-12 16:46:36
- * @LastEditTime: 2023-10-16 13:42:53
+ * @LastEditTime: 2023-10-20 14:39:23
  * @LastEditors: 振顺
  */
 // 登录接口需要携带参数ts类型
-export interface LoginFrom {
+export interface loginFromData {
     username: string
     password: string
 }
 
-interface dataType {
-    token?: string
-    message?: string
-    userInfo?: {
-        id: number
-        username: string
-        nickname: string
-        email: string
-        phone: string
-        sex: number
-        role: number
-        createTime: string
-        updateTime: string
+// 定义全部接口返回数据都拥有ts类型
+export interface ResponseData {
+    code: number
+    message: string
+    ok: boolean
+}
+
+// 定义登录接口返回数据类型
+export interface loginResponseData extends ResponseData {
+    data: string
+}
+
+// 定义用户信息返回数据类型
+export interface userInfoResponseData extends ResponseData {
+    data: {
+        routes: string[]
+        buttons: string[]
+        roles: string[]
+        name: string
+        avatar: string
     }
-}
-
-// 登录接口返回数据类型
-export interface LoginRes {
-    code: number
-    data: dataType
-}
-
-// 定义服务器返回用户信息相关的数据类型
-interface userInfo {
-    userId: number
-    avatar:string
-    username: string
-    password: string
-    desc:string
-    roles:string[]
-    buttons:string[]
-    routes:string[]
-    token:string
-}
-interface user {
-    checkUser:userInfo
-}
-export interface UserResponseData {
-    code: number
-    data: user
 }

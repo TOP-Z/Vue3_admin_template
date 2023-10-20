@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-16 14:22:18
- * @LastEditTime: 2023-10-19 16:18:37
+ * @LastEditTime: 2023-10-20 14:53:18
  * @LastEditors: 振顺
 -->
 <template>
@@ -107,7 +107,6 @@ export default {
     position: absolute;
     width: calc(100% - $base-menu-width);
     height: calc(100vh - $base-tabbar-height);
-    background-color: yellowgreen;
     left: $base-menu-width;
     top: $base-tabbar-height;
     padding: 20px;
