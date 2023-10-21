@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-17 11:28:09
- * @LastEditTime: 2023-10-21 13:40:45
+ * @LastEditTime: 2023-10-21 18:06:19
  * @LastEditors: 振顺
 -->
 <template>
@@ -62,17 +62,21 @@
   <el-dialog v-model="dialogFormVisible" title="添加品牌">
     <el-form :model="form" style="width: 80%">
       <el-form-item label="品牌名称" label-width="80px">
-        <el-input autocomplete="off" placeholder="请输入品牌名称" />
+        <el-input
+          v-model="trademarkPramas.tmName"
+          autocomplete="off"
+          placeholder="请输入品牌名称"
+        />
       </el-form-item>
       <el-form-item label="品牌LOGO" label-width="80px">
         <el-upload
           class="avatar-uploader"
-          action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+          action="/api/admin/product/fileUpload"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+          <img v-if="imageUrl" :src="trademarkPramas.logoUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
       </el-form-item>
@@ -80,9 +84,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="cancel">取消</el-button>
-        <el-button type="primary" @click="confirm">
-          确定
-        </el-button>
+        <el-button type="primary" @click="confirm">确定</el-button>
       </span>
     </template>
   </el-dialog>
@@ -94,8 +96,10 @@ import { reqHasTrademark } from '@/api/product/trademark/index'
 import type {
   Records,
   TradeMarkResponseData,
+  TradeMark,
 } from '@/api/product/trademark/type'
-import { tr } from 'element-plus/es/locale'
+import type { UploadProps } from 'element-plus'
+import { ElMessage } from 'element-plus'
 // 当前页码
 let pageNo = ref<number>(1)
 // 每页展示多少条数据
@@ -106,6 +110,11 @@ let total = ref<number>(0)
 let trademarkArr = ref<Records>([])
 // 控制对话框的显示与隐藏
 let dialogFormVisible = ref<boolean>(false)
+// 定义的收集新增品牌数据
+let trademarkPramas = reactive<TradeMark>({
+  tmName: '',
+  logoUrl: '',
+})
 //获取已有品牌的接口封装为一个函数:在任何情况下向获取数据,调用此函数即可
 const getHasTrademark = async (pager = 1) => {
   pageNo.value = pager
@@ -147,6 +156,33 @@ const cancel = () => {
 // 对话框确认按钮
 const confirm = () => {
   dialogFormVisible.value = false
+}
+
+// 上传图片组件->上传图片前触发的钩子函数
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  // 钩子是在图片上传成功之前触发,上传文件之前可以约束文件类型与大小
+  // 要求:上传文件格式png|jpg|gif 4M
+  if (
+    rawFile.type == 'image/png' ||
+    rawFile.type == 'image/jpeg' ||
+    rawFile.type == 'image/gif'
+  ) {
+    if (rawFile.size / 1024 / 1024 < 4) {
+      return true
+    } else {
+      ElMessage({
+        type: 'error',
+        message: '上传文件大小小于4M',
+      })
+      return false
+    }
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '上传文件格式务必为PNG|JPG|GIF!',
+    })
+    return false
+  }
 }
 </script>
 <style scoped>
