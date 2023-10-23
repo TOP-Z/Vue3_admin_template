@@ -1,8 +1,8 @@
 /*
- * @Description: 
+ * @Description: 登录接口ts类型
  * @Author: 振顺
  * @Date: 2023-10-12 16:46:36
- * @LastEditTime: 2023-10-20 14:39:23
+ * @LastEditTime: 2023-10-23 16:43:18
  * @LastEditors: 振顺
  */
 // 登录接口需要携带参数ts类型

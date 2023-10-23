@@ -1,98 +1,135 @@
 <!--
- * @Description: 
+ * @Description: 品牌管理
  * @Author: 振顺
  * @Date: 2023-10-17 11:28:09
- * @LastEditTime: 2023-10-23 09:51:18
+ * @LastEditTime: 2023-10-23 16:46:40
  * @LastEditors: 振顺
 -->
 <template>
-  <el-card class="box-card">
-    <!-- 卡片顶部添加品牌按钮 -->
-    <el-button type="primary" size="default" icon="Plus" @click="addTrademark">
-      添加品牌
-    </el-button>
-    <!-- 表格组件:用于展示已有的平台数据 -->
-    <el-table border stripe style="margin: 10px 0" :data="trademarkArr">
-      <el-table-column
-        label="序号"
-        width="80px"
-        align="center"
-        type="index"
-      ></el-table-column>
-      <el-table-column label="品牌名称" porp="tmName">
-        <template #="{ row, $index }">
-          <pre style="color: brown">{{ row.tmName }}</pre>
-        </template>
-      </el-table-column>
-      <el-table-column label="品牌LOGO">
-        <template #="{ row, $index }">
-          <img :src="row.logoUrl" alt="" style="width: 100px; height: 100px" />
-        </template>
-      </el-table-column>
-      <el-table-column label="品牌操作">
-        <template #="{ row, $index }">
-          <el-button
-            type="primary"
-            size="small"
-            @click="updateTrademark"
-            icon="Edit"
-          ></el-button>
-          <el-button
-            type="primary"
-            size="small"
-            @click=""
-            icon="Delete"
-          ></el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <!-- 分页器组件 -->
-    <el-pagination
-      v-model:current-page="pageNo"
-      v-model:page-size="limit"
-      :page-sizes="[3, 5, 7, 9, 11]"
-      :background="true"
-      layout=" prev, pager, next, jumper, ->,sizes,total"
-      :total="total"
-      @size-change="getHasTrademark"
-      @current-change="getHasTrademark"
-    />
-  </el-card>
-  <!-- 对话框组件 -->
-  <el-dialog v-model="dialogFormVisible" title="添加品牌">
-    <el-form :model="form" style="width: 80%">
-      <el-form-item label="品牌名称" label-width="80px">
-        <el-input
-          v-model="trademarkPramas.tmName"
-          autocomplete="off"
-          placeholder="请输入品牌名称"
-        />
-      </el-form-item>
-      <el-form-item label="品牌LOGO" label-width="80px">
-        <el-upload
-          class="avatar-uploader"
-          action="/api/admin/product/fileUpload"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="trademarkPramas.logoUrl" :src="trademarkPramas.logoUrl" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
-      </el-form-item>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="cancel">取消</el-button>
-        <el-button type="primary" @click="confirm">确定</el-button>
-      </span>
-    </template>
-  </el-dialog>
+  <div>
+    <el-card class="box-card">
+      <!-- 卡片顶部添加品牌按钮 -->
+      <el-button
+        type="primary"
+        size="default"
+        icon="Plus"
+        @click="addTrademark"
+      >
+        添加品牌
+      </el-button>
+      <!-- 表格组件:用于展示已有的平台数据 -->
+      <el-table border stripe style="margin: 10px 0" :data="trademarkArr">
+        <el-table-column
+          label="序号"
+          width="80px"
+          align="center"
+          type="index"
+        ></el-table-column>
+        <el-table-column label="品牌名称" porp="tmName">
+          <template #="{ row, $index }">
+            <pre style="color: brown">{{ row.tmName }}</pre>
+          </template>
+        </el-table-column>
+        <el-table-column label="品牌LOGO">
+          <template #="{ row, $index }">
+            <img
+              :src="row.logoUrl"
+              alt=""
+              style="width: 100px; height: 100px"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column label="品牌操作">
+          <template #="{ row, $index }">
+            <el-button
+              type="primary"
+              size="small"
+              @click="updateTrademark(row)"
+              icon="Edit"
+            ></el-button>
+            <el-popconfirm
+              width="250px"
+              icon="Delete"
+              icon-color="red"
+              :title="`您确定要删除${row.tmName}吗`"
+              @confirm="removeTradeMark(row.id)"
+            >
+              <template #reference>
+                <el-button
+                  type="primary"
+                  size="small"
+                  icon="Delete"
+                ></el-button>
+              </template>
+            </el-popconfirm>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- 分页器组件 -->
+      <el-pagination
+        v-model:current-page="pageNo"
+        v-model:page-size="limit"
+        :page-sizes="[3, 5, 7, 9, 11]"
+        :background="true"
+        layout=" prev, pager, next, jumper, ->,sizes,total"
+        :total="total"
+        @size-change="getHasTrademark"
+        @current-change="getHasTrademark"
+      />
+    </el-card>
+    <!-- 对话框组件 -->
+    <el-dialog
+      v-model="dialogFormVisible"
+      :title="trademarkPramas.id ? '修改品牌' : '添加品牌'"
+      @close="close"
+    >
+      <el-form
+        :model="trademarkPramas"
+        :rules="rules"
+        ref="formRef"
+        style="width: 80%"
+      >
+        <el-form-item label="品牌名称" label-width="100px" prop="tmName">
+          <el-input
+            v-model="trademarkPramas.tmName"
+            autocomplete="off"
+            placeholder="请输入品牌名称"
+          />
+        </el-form-item>
+        <el-form-item label="品牌LOGO" label-width="100px" prop="logoUrl">
+          <el-upload
+            class="avatar-uploader"
+            action="/api/admin/product/fileUpload"
+            :show-file-list="false"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img
+              v-if="trademarkPramas.logoUrl"
+              :src="trademarkPramas.logoUrl"
+              class="avatar"
+            />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </el-upload>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="cancel">取消</el-button>
+          <el-button type="primary" @click="confirm">确定</el-button>
+        </span>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
-import { reqHasTrademark } from '@/api/product/trademark/index'
+import { ref, reactive, onMounted, nextTick } from 'vue'
+import {
+  reqHasTrademark,
+  reqAddOrUpdateTrademark,
+  reqDeleteTrademark,
+} from '@/api/product/trademark/index'
 import type {
   Records,
   TradeMarkResponseData,
@@ -115,6 +152,8 @@ let trademarkPramas = reactive<TradeMark>({
   tmName: '',
   logoUrl: '',
 })
+// 获取el-form组件实例
+let formRef = ref()
 //获取已有品牌的接口封装为一个函数:在任何情况下向获取数据,调用此函数即可
 const getHasTrademark = async (pager = 1) => {
   pageNo.value = pager
@@ -123,7 +162,6 @@ const getHasTrademark = async (pager = 1) => {
     limit.value,
   )
   if (result.code == 200) {
-    console.log(result)
     total.value = result.data.total
     trademarkArr.value = result.data.records
   }
@@ -141,12 +179,30 @@ onMounted(() => {
 //   getHasTrademark()
 // }
 
+// 关闭Dialog回调
+const close = () => {
+  formRef.value?.clearValidate(['tmName', 'logoUrl'])
+}
 // 添加品牌按钮回调
 const addTrademark = () => {
   dialogFormVisible.value = true
+  // 清空收集数据
+  trademarkPramas.logoUrl = ''
+  trademarkPramas.tmName = ''
+  trademarkPramas.id = 0
+
+  // formRef.value?.clearValidate(['tmName', 'logoUrl'])
+  nextTick(() => {
+    formRef.value.clearValidate(['tmName', 'logoUrl'])
+  })
 }
 // 修改已有品牌的按钮回调
-const updateTrademark = () => {
+const updateTrademark = (row: TradeMark) => {
+  // trademarkPramas.logoUrl = row.logoUrl
+  // trademarkPramas.tmName = row.tmName
+  // trademarkPramas.id = row.id
+  formRef.value?.clearValidate(['tmName', 'logoUrl'])
+  Object.assign(trademarkPramas, row)
   dialogFormVisible.value = true
 }
 // 对话框取消按钮
@@ -154,7 +210,23 @@ const cancel = () => {
   dialogFormVisible.value = false
 }
 // 对话框确认按钮
-const confirm = () => {
+const confirm = async () => {
+  await formRef.value.validate()
+  let result: any = await reqAddOrUpdateTrademark(trademarkPramas)
+  if (result.code == 200) {
+    dialogFormVisible.value = false
+    getHasTrademark(trademarkPramas.id ? pageNo.value : 1)
+    ElMessage({
+      type: 'success',
+      message: trademarkPramas.id ? '修改品牌成功' : '添加品牌成功',
+    })
+  } else {
+    dialogFormVisible.value = false
+    ElMessage({
+      type: 'error',
+      message: trademarkPramas.id ? '修改品牌失败' : '添加品牌失败',
+    })
+  }
   dialogFormVisible.value = false
 }
 
@@ -188,10 +260,48 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
 // 图片上传成功钩子
 const handleAvatarSuccess: UploadProps['onSuccess'] = (
   response,
-  uploadFile
+  uploadFile,
 ) => {
   // response即为当前这次上传图片post请求服务器返回的数据
   trademarkPramas.logoUrl = response.data
+  // 图片上传成功，清除掉对应图片校验结果
+  formRef.value.clearValidate('logoUrl')
+}
+
+const validateLogoUrl = (rule: any, value: any, callback: any) => {
+  if (!value) {
+    callback(new Error('请上传LOGO图片'))
+  } else {
+    callback()
+  }
+}
+
+// 表单校验规则
+const rules = {
+  tmName: [
+    { required: true, message: '请输入品牌名称', trigger: 'blur' },
+    { min: 3, max: 10, message: '长度在 3 到 10 个字符', trigger: 'blur' },
+  ],
+  logoUrl: [{ required: true, validator: validateLogoUrl }],
+}
+
+// 气泡确认框删除确认按钮回调
+const removeTradeMark = async (id: number) => {
+  let result: any = await reqDeleteTrademark(id)
+  if (result.code == 200) {
+    getHasTrademark(
+      trademarkArr.value.length > 1 ? pageNo.value : pageNo.value - 1,
+    )
+    ElMessage({
+      type: 'success',
+      message: '删除品牌成功',
+    })
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '删除品牌失败',
+    })
+  }
 }
 </script>
 <style scoped>
