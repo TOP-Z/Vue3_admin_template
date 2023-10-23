@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-17 11:28:09
- * @LastEditTime: 2023-10-21 18:06:19
+ * @LastEditTime: 2023-10-23 09:51:18
  * @LastEditors: 振顺
 -->
 <template>
@@ -76,7 +76,7 @@
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
         >
-          <img v-if="imageUrl" :src="trademarkPramas.logoUrl" class="avatar" />
+          <img v-if="trademarkPramas.logoUrl" :src="trademarkPramas.logoUrl" class="avatar" />
           <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
         </el-upload>
       </el-form-item>
@@ -183,6 +183,15 @@ const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
     })
     return false
   }
+}
+
+// 图片上传成功钩子
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile
+) => {
+  // response即为当前这次上传图片post请求服务器返回的数据
+  trademarkPramas.logoUrl = response.data
 }
 </script>
 <style scoped>
