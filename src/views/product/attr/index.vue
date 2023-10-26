@@ -2,7 +2,7 @@
  * @Description: 属性管理
  * @Author: 振顺
  * @Date: 2023-10-17 11:29:43
- * @LastEditTime: 2023-10-23 17:46:28
+ * @LastEditTime: 2023-10-26 17:43:04
  * @LastEditors: 振顺
 -->
 <template>
@@ -10,7 +10,13 @@
     <!-- ?三级分类全局组件 -->
     <Category />
     <el-card shadow="always" style="margin: 10px 0">
-      <el-button type="primary" size="default" icon="Plus" @click="">
+      <el-button
+        type="primary"
+        size="default"
+        icon="Plus"
+        :disabled="categoryStore.c3Id ? false : true"
+        @click=""
+      >
         添加属性
       </el-button>
       <el-table border stripe style="margin: 10px 0">
@@ -25,10 +31,7 @@
           width="120px"
         ></el-table-column>
         <el-table-column label="属性值名称"></el-table-column>
-        <el-table-column
-          label="操作"
-          width="120px"
-        ></el-table-column>
+        <el-table-column label="操作" width="120px"></el-table-column>
       </el-table>
     </el-card>
   </div>
@@ -36,5 +39,8 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
+// 引入分类相关的仓库
+import useCategoryStore from '@/store/modules/category'
+let categoryStore = useCategoryStore()
 </script>
 <style scoped lang="scss"></style>

@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-23 17:35:58
- * @LastEditTime: 2023-10-24 16:08:35
+ * @LastEditTime: 2023-10-26 17:46:44
  * @LastEditors: 振顺
 -->
 <template>
@@ -33,7 +33,7 @@
             placeholder=""
             clearable
             filterable
-            @change=""
+            @change="handler_"
           >
             <el-option
               v-for="item in categoryStore.c2Arr"
@@ -67,7 +67,6 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { reqC1, reqC2, reqC3 } from '@/api/product/attr'
 // 引入分类相关的仓库
 import useCategoryStore from '@/store/modules/category'
 let categoryStore = useCategoryStore()
@@ -85,6 +84,25 @@ const getC1 = async () => {
 const handler = () => {
   // 通知仓库获取二级分类的数据方法
   categoryStore.getC2()
+  categoryStore.c2Id = ''
+  categoryStore.c3Id = ''
+  categoryStore.c2Arr = []
+  categoryStore.c3Arr = []
+}
+// 二级下拉菜单的change事件
+const handler_ = () => {
+  // 通知仓库获取三级分类的数据方法
+  categoryStore.getC3()
+  categoryStore.c3Id = ''
+  categoryStore.c3Arr = []
 }
 </script>
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-form {
+  display: flex;
+  justify-content: space-around;
+  .el-form-item{
+    margin-bottom: 0px;
+  }
+}
+</style>

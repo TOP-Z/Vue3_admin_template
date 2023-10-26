@@ -2,7 +2,7 @@
  * @Description: 品牌管理
  * @Author: 振顺
  * @Date: 2023-10-17 11:28:09
- * @LastEditTime: 2023-10-23 16:46:40
+ * @LastEditTime: 2023-10-26 10:56:33
  * @LastEditors: 振顺
 -->
 <template>

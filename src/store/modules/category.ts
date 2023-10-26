@@ -27,10 +27,23 @@ let useCategoryStore = defineStore('Category', {
         // 获取二级分类的方法
         async getC2() {
             // 发送请求获取一级分类数据
-            let result: CategoryResponseData = await reqC2(this.c1Id)
-            if (result.code == 200) {
-                console.log(result)
-                this.c2Arr = result.data
+            if (this.c1Id) {
+                let result: CategoryResponseData = await reqC2(this.c1Id)
+                if (result.code == 200) {
+                    console.log(result)
+                    this.c2Arr = result.data
+                }
+            }
+        },
+        // 获取三级分类的方法
+        async getC3() {
+            // 发送请求获取一级分类数据
+            if (this.c2Id) {
+                let result: CategoryResponseData = await reqC3(this.c2Id)
+                if (result.code == 200) {
+                    console.log(result)
+                    this.c3Arr = result.data
+                }
             }
         }
     },

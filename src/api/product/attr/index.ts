@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-24 09:57:31
- * @LastEditTime: 2023-10-24 16:15:35
+ * @LastEditTime: 2023-10-26 18:02:04
  * @LastEditors: 振顺
  */
 // 属性相关API文件
@@ -16,6 +16,8 @@ enum API {
     C2_URL = '/admin/product/getCategory2/',
     // 获取三级分类接口地址
     C3_URL = '/admin/product/getCategory3/',
+    // 获取分类下已有的属性与属性值
+    ATTR_URL = '/admin/product/attrInfoList/'
 }
 
 // 获取一级分类的接口方法
@@ -27,6 +29,8 @@ export const reqC2 = (category1Id: number | string) => {
     return request.get<any, CategoryResponseData>(API.C2_URL + category1Id)
 }
 // 获取三级分类的接口方法
-export const reqC3 = (category2Id: number) => {
+export const reqC3 = (category2Id: number | string) => {
     return request.get<any, CategoryResponseData>(API.C3_URL + category2Id)
 }
+// 获取对应分类下已有的属性与属性值接口
+export const reqAttr = ()=>{}
