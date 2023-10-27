@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-12 15:59:54
- * @LastEditTime: 2023-10-19 15:42:29
+ * @LastEditTime: 2023-10-27 15:41:50
  * @LastEditors: 振顺
  */
 // 进行axios二次封装：使用请求与响应拦截器
@@ -14,7 +14,7 @@ import useUserStore from '@/store/modules/user'
 let request = axios.create({
     // 基础路径
     baseURL: import.meta.env.VITE_APP_BASE_API, // 基础路径上会携带api
-    timeout: 5000 // 超时时间的设置
+    timeout: 10000 // 超时时间的设置
 });
 // 第二步：request实例添加请求与响应拦截器
 request.interceptors.request.use((config) => {

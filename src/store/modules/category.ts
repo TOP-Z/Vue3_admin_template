@@ -20,7 +20,6 @@ let useCategoryStore = defineStore('Category', {
             // 发送请求获取一级分类数据
             let result: CategoryResponseData = await reqC1()
             if (result.code == 200) {
-                console.log(result)
                 this.c1Arr = result.data
             }
         },
@@ -30,7 +29,6 @@ let useCategoryStore = defineStore('Category', {
             if (this.c1Id) {
                 let result: CategoryResponseData = await reqC2(this.c1Id)
                 if (result.code == 200) {
-                    console.log(result)
                     this.c2Arr = result.data
                 }
             }
@@ -41,7 +39,6 @@ let useCategoryStore = defineStore('Category', {
             if (this.c2Id) {
                 let result: CategoryResponseData = await reqC3(this.c2Id)
                 if (result.code == 200) {
-                    console.log(result)
                     this.c3Arr = result.data
                 }
             }
