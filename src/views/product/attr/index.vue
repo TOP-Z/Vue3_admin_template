@@ -2,13 +2,13 @@
  * @Description: 属性管理
  * @Author: 振顺
  * @Date: 2023-10-17 11:29:43
- * @LastEditTime: 2023-10-27 16:04:26
+ * @LastEditTime: 2023-11-04 11:32:21
  * @LastEditors: 振顺
 -->
 <template>
   <div>
     <!-- ?三级分类全局组件 -->
-    <Category />
+    <Category :scene="scene" />
     <el-card shadow="always" style="margin: 10px 0">
       <div v-show="scene == 0">
         <el-button
@@ -64,11 +64,27 @@
           <el-form-item label="属性名称">
             <el-input placeholder="请你输入属性名称"></el-input>
           </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="onSubmit">立即创建</el-button>
-            <el-button>取消</el-button>
-          </el-form-item>
         </el-form>
+        <el-button type="primary" size="default" icon="Plus" @click="">
+          添加属性值
+        </el-button>
+        <el-button type="primary" size="default" @click="cancel">
+          取消
+        </el-button>
+        <el-table border style="margin: 10px 0px">
+          <el-table-column
+            label="序号"
+            type="index"
+            width="80"
+            align="center"
+          />
+          <el-table-column label="属性值名称"></el-table-column>
+          <el-table-column label="属性值操作"></el-table-column>
+        </el-table>
+        <el-button type="primary" size="default" @click="">保存</el-button>
+        <el-button type="primary" size="default" @click="cancel">
+          取消
+        </el-button>
       </div>
     </el-card>
   </div>
@@ -85,7 +101,19 @@ let categoryStore = useCategoryStore()
 // 存储已有的属性与属性值
 let attrArr = ref<Attr[]>([])
 // 定义card组件内容切换变量
-let scene = ref<number>(1) //scene,显示table,scene=1,展示添加与修改属性结构
+let scene = ref<number>(0) //  todoscene,显示table,scene=1,展示添加与修改属性结构
+// 收集新增属性的数据
+let attrParams = reactive<Attr>({
+  attrName: '', //新增属性名
+  attrValueList: [
+    //新增属性值数组
+    // {
+    //   valueName: '',
+    // },
+  ],
+  categoryId: '', // 三级分类的ID
+  categoryLevel: 3, // 代表的是三级分类
+})
 watch(
   () => categoryStore.c3Id,
   (n, o) => {
@@ -114,6 +142,10 @@ const addAttr = () => {
 const updateAttr = () => {
   // 切换为添加与修改属性的结构
   scene.value = 1
+}
+// 取消按钮的回调
+const cancel = () => {
+  scene.value = 0
 }
 </script>
 <style scoped lang="scss"></style>

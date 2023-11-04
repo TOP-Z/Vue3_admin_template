@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-24 11:06:48
- * @LastEditTime: 2023-10-27 16:42:10
+ * @LastEditTime: 2023-11-04 11:19:33
  * @LastEditors: 振顺
  */console.log()
 // 分类相关数据ts类型
@@ -28,9 +28,9 @@ export interface CategoryResponseData extends ResponseData {
 
 // 属性对象ts类型
 export interface Attr {
-    id: number | string
+    id?: number | string
     attrName: string
-    categoryId: number
+    categoryId: number | string
     categoryLevel: number
     attrValueList: AttrValueList
 
@@ -40,9 +40,9 @@ export type AttrList = Attr[]
 
 // 属性值对象的ts类型
 export interface AttrValue {
-    id: number | string
+    id?: number | string
     valueName: string
-    attrId: number
+    attrId?: number
 }
 
 // 存储每一个属性值的数组类型

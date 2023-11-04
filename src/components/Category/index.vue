@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-23 17:35:58
- * @LastEditTime: 2023-10-26 17:46:44
+ * @LastEditTime: 2023-11-01 17:34:48
  * @LastEditors: 振顺
 -->
 <template>
@@ -12,6 +12,7 @@
         <el-form-item label="一级分类">
           <el-select
             v-model="categoryStore.c1Id"
+            :disabled="scene == 0 ? false : true"
             value-key=""
             placeholder=""
             clearable
@@ -29,6 +30,7 @@
         <el-form-item label="二级分类">
           <el-select
             v-model="categoryStore.c2Id"
+            :disabled="scene == 0 ? false : true"
             value-key=""
             placeholder=""
             clearable
@@ -46,6 +48,7 @@
         <el-form-item label="三级分类">
           <el-select
             v-model="categoryStore.c3Id"
+            :disabled="scene == 0 ? false : true"
             value-key=""
             placeholder=""
             clearable
@@ -70,7 +73,8 @@ import { ref, reactive, onMounted } from 'vue'
 // 引入分类相关的仓库
 import useCategoryStore from '@/store/modules/category'
 let categoryStore = useCategoryStore()
-
+// 接受父组件传过来的scene
+defineProps(['scene'])
 onMounted(() => {
   getC1()
 })
@@ -101,7 +105,7 @@ const handler_ = () => {
 .el-form {
   display: flex;
   justify-content: space-around;
-  .el-form-item{
+  .el-form-item {
     margin-bottom: 0px;
   }
 }
