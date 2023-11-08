@@ -2,7 +2,7 @@
  * @Description: 属性管理
  * @Author: 振顺
  * @Date: 2023-10-17 11:29:43
- * @LastEditTime: 2023-11-07 16:03:54
+ * @LastEditTime: 2023-11-08 11:44:07
  * @LastEditors: 振顺
 -->
 <template>
@@ -44,18 +44,28 @@
             </template>
           </el-table-column>
           <el-table-column label="操作" width="120px">
-            <el-button
-              type="primary"
-              size="small"
-              icon="Edit"
-              @click="updateAttr"
-            ></el-button>
-            <el-button
-              type="primary"
-              size="small"
-              icon="Delete"
-              @click=""
-            ></el-button>
+            <!-- 修改已有属性的按钮 -->
+            <template #="{ row }">
+              <el-button
+                type="primary"
+                size="small"
+                icon="Edit"
+                @click="updateAttr(row)"
+              ></el-button>
+
+              <el-popconfirm
+                :title="`你确定删除${row.attrName}?`"
+                @confirm="deleteAttr(row.id)"
+              >
+                <template #reference>
+                  <el-button
+                    type="primary"
+                    size="small"
+                    icon="Delete"
+                  ></el-button>
+                </template>
+              </el-popconfirm>
+            </template>
           </el-table-column>
         </el-table>
       </div>
@@ -99,14 +109,23 @@
                 placeholder="请输入属性值的名称"
                 size="small"
                 @blur="toLook(row, $index)"
-                :ref="refs"
+                :ref="(vc: any) => (inputArr[$index] = vc)"
                 clearable
                 @change=""
               ></el-input>
-              <div v-else @click="toEdit(row)">{{ row.valueName }}</div>
+              <div v-else @click="toEdit(row, $index)">{{ row.valueName }}</div>
             </template>
           </el-table-column>
-          <el-table-column label="属性值操作"></el-table-column>
+          <el-table-column label="属性值操作">
+            <template #="{ row, $index }">
+              <el-button
+                type="primary"
+                size="small"
+                icon="Delete"
+                @click="attrParams.attrValueList.splice($index, 1)"
+              ></el-button>
+            </template>
+          </el-table-column>
         </el-table>
         <el-button
           type="primary"
@@ -125,9 +144,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from 'vue'
+import { ref, reactive, watch, nextTick,onBeforeUnmount } from 'vue'
 // 引入获取已有属性与属性值接口
-import { reqAttr, reqAddOrUpdateAttr } from '@/api/product/attr'
+import { reqAttr, reqAddOrUpdateAttr, reqDeleteAttr } from '@/api/product/attr'
 import type { AttrResponseData, Attr, AttrValue } from '@/api/product/attr/type'
 // 引入分类相关的仓库
 import useCategoryStore from '@/store/modules/category'
@@ -149,7 +168,8 @@ let attrParams = reactive<Attr>({
   categoryId: '', // 三级分类的ID
   categoryLevel: 3, // 代表的是三级分类
 })
-let refs = ref()
+// 准备一个数组:将来存储对应的组件实例
+let inputArr = ref<any>([])
 watch(
   () => categoryStore.c3Id,
   (n, o) => {
@@ -187,9 +207,10 @@ const addAttr = () => {
   scene.value = 1
 }
 // table表格修改已有属性按钮的回调
-const updateAttr = () => {
+const updateAttr = (row: AttrValue) => {
   // 切换为添加与修改属性的结构
   scene.value = 1
+  Object.assign(attrParams, JSON.parse(JSON.stringify(row)))
 }
 // 取消按钮的回调
 const cancel = () => {
@@ -201,7 +222,10 @@ const addAttrValue = () => {
     valueName: '',
     flag: true, // 单独控制每一个属性值编辑模式与查看模式的切换
   })
-  refs.value.focus()
+  // 获取最后el-input组件聚焦
+  nextTick(() => {
+    inputArr.value[attrParams.attrValueList.length - 1].focus()
+  })
 }
 // 保存按钮的回调
 const save = async () => {
@@ -250,8 +274,34 @@ const toLook = (row: AttrValue, $index: number) => {
   }
   row.flag = false
 }
-const toEdit = (row: AttrValue) => {
+// 属性值div点击事件
+const toEdit = (row: AttrValue, $index: number) => {
   row.flag = true
+  nextTick(() => {
+    inputArr.value[$index].focus()
+  })
 }
+// 删除某一个已有的属性方法的回调
+const deleteAttr = async (attrId: number) => {
+  let result: any = await reqDeleteAttr(attrId)
+  if (result.code == 200) {
+    ElMessage({
+      type: 'success',
+      message: '删除成功',
+    })
+    getAttr()
+  } else {
+    ElMessage({
+      type: 'error',
+      message: '删除失败',
+    })
+  }
+}
+
+// 路由组件销毁的时候,把仓库分类相关的数据清空
+onBeforeUnmount(()=>{
+  // 清空仓库数据
+  categoryStore.$reset()
+})
 </script>
 <style scoped lang="scss"></style>
