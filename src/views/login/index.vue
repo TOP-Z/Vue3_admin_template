@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-13 09:29:47
- * @LastEditTime: 2023-10-19 17:30:10
+ * @LastEditTime: 2023-11-20 15:13:08
  * @LastEditors: 振顺
 -->
 <template>
@@ -21,7 +21,7 @@
           <el-form-item label="" prop="username">
             <el-input
               v-model="loginForm.username"
-              :prefix-icon="User"
+              prefix-icon="User"
               placeholder=""
               clearable
               @change=""
@@ -30,7 +30,7 @@
           <el-form-item label="" prop="password">
             <el-input
               v-model="loginForm.password"
-              :prefix-icon="Lock"
+              prefix-icon="Lock"
               type="password"
               show-password
               placeholder=""
@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { User, Lock } from '@element-plus/icons-vue'
+// import { User, Lock } from '@element-plus/icons-vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElNotification } from 'element-plus'
 import { getNowTime } from '@/utils/time'
