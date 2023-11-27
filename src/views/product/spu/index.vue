@@ -2,7 +2,7 @@
  * @Description: 
  * @Author: 振顺
  * @Date: 2023-10-17 11:29:07
- * @LastEditTime: 2023-11-27 11:48:00
+ * @LastEditTime: 2023-11-27 17:54:32
  * @LastEditors: 振顺
 -->
 <template>
@@ -74,6 +74,7 @@
         :background="true"
         layout="prev, pager, next, jumper, ->,sizes,total"
         :total="total"
+        :disabled="!categoryStore.c3Id"
         @size-change="getHasSpu"
         @current-change="getHasSpu"
       />
@@ -83,6 +84,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, watch } from 'vue'
+import SpuForm from './spuForm.vue'
 // 引入获取已有SPU接口
 import { reqHasSpu } from '@/api/product/spu'
 import type { HasSpuResponseData, Records } from '@/api/product/spu/type'
